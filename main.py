@@ -3,7 +3,7 @@ import re
 from dotenv import load_dotenv
 import os
 
-from sed import sed, sed_regex
+from sed import Sed
 
 load_dotenv()
 bot = telebot.TeleBot(os.getenv('API_TOKEN'))
@@ -20,8 +20,8 @@ Hi there, I am Jeaciaz's personal bot for stuff.
 Right now I only do message editing, to do so reply to a message with 's/thing/replacement/g', and I will replace the "thing" in message replied to with "replacement". I also support Python RegExp syntax, and you can use the regex flags after the last slash.
 """)
 
-@bot.message_handler(func=lambda message: re.match(sed_regex, message.text) is not None and message.reply_to_message is not None)
+@bot.message_handler(func=lambda message: Sed.is_valid(message))
 def echo_message(message):
-    bot.reply_to(message, sed(message))
+    bot.reply_to(message, Sed(message).calc())
 
 bot.infinity_polling()
