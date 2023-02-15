@@ -1,7 +1,6 @@
 import telebot
-import re
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 from sed import Sed
 
