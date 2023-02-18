@@ -3,7 +3,7 @@ import functools
 
 from telebot.types import Message
 
-sed_regex = r's/(.*?)/(.*?)/(.*)?'
+sed_regex = r's/([^/]*?)/([^/]*)/?([gaimsx]*)?'
 flag_replacements = {'g': 0, 'a': re.A, 'i': re.I, 'm': re.M, 's': re.S, 'x': re.X}
 
 class Sed:
