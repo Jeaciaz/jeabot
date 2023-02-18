@@ -1,6 +1,8 @@
 import re
 import functools
 
+from telebot.types import Message
+
 sed_regex = r's/(.*?)/(.*?)/(.*)?'
 flag_replacements = {'g': 0, 'a': re.A, 'i': re.I, 'm': re.M, 's': re.S, 'x': re.X}
 
@@ -10,13 +12,13 @@ class Sed:
   """
 
   @staticmethod
-  def is_valid(message):
+  def is_valid(message: Message) -> bool:
     """
     Checks if message satisfies the requirements to be processed with sed, this includes format (s/thing/replacement/flags?) and a replied-to message.
     """
     return re.match(sed_regex, message.text) is not None and message.reply_to_message is not None
 
-  def __init__(self, message):
+  def __init__(self, message: Message):
     """
     Creates instance of Sed based on the message, validating it in the process with Sed.is_valid. If the message is invalid, throws ValueError.
     """
@@ -25,7 +27,7 @@ class Sed:
     self.thing, self.replacement, self.flag_string = re.match(sed_regex, message.text).groups()
     self.source_text = message.reply_to_message.text
 
-  def calc(self):
+  def calc(self) -> str:
     """
     Returns the edited original message's replied-to message.
     """
